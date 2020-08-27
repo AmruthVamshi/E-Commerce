@@ -40,7 +40,7 @@ exports.updateSubCategory = async (SubCategory,subCategoryName,data) =>{
 exports.deleteSubCategory = async (SubCategory,Category,subCategoryName) =>{
 	try {
 		let result = await SubCategory.findOneAndRemove({subCategoryName})
-		await Category.findOneAndUpdate({_id:result.category},{$pull:{subCategories:id}})
+		await Category.findOneAndUpdate({_id:result.category},{$pull:{subCategories:result._id}})
 		return Promise.resolve(result);
 	} catch(err) {
 		return Promise.reject(err);

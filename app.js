@@ -18,7 +18,7 @@ app.use('/api',require('./routes'));
 //mongoose connection
 (async ()=>{
 	try {
-		await mongoose.connect(`mongodb://127.0.0.1:27017/${process.env.DATABASE_NAME || 'e_commerce_db'}`,
+		await mongoose.connect(`mongodb+srv://Amruth:${process.env.DATABASE_PASSWORD || 'e_commerce_db'}@cluster0-xpq8q.mongodb.net/${process.env.DATABASE_NAME || 'e_commerce_db'}?retryWrites=true&w=majority`,
 			{ 
 				useNewUrlParser: true,
 				useUnifiedTopology: true,

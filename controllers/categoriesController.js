@@ -1,12 +1,11 @@
 const CategoryModel = require('../models/category');
 const persistance = require('../persistance/category');
 
-//category routes
-
+//category controllers
+//logic for getting all categories
 exports.getCategories = async (req,res) => {
 	try {
 		let result = await persistance.getCategories(CategoryModel);
-		console.log(result)
 		res.status(200).json({
 			text:'all categories!',
 			body:result.map(item=>{return{
@@ -23,7 +22,7 @@ exports.getCategories = async (req,res) => {
 		})
 	}	
 }
-
+//creating a category
 exports.createCategory = async (req,res) => {
 	try{
 		let result = await persistance.createCategory(CategoryModel,req.body);
@@ -39,7 +38,7 @@ exports.createCategory = async (req,res) => {
 		})
 	}
 }
-
+//updating a category
 exports.updateCategory = async (req,res) => {
 	try{
 		let result = await persistance.updateCategory(CategoryModel,req.params.categoryName,req.body);
@@ -55,7 +54,7 @@ exports.updateCategory = async (req,res) => {
 		})
 	}
 }
-
+//deleting a category
 exports.deleteCategory = async (req,res) => {
 	try{
 		let result = await persistance.deleteCategory(CategoryModel,req.params.categoryName);

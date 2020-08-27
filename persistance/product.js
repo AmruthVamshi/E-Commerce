@@ -1,7 +1,7 @@
 //fetching all products from database
 exports.getProducts = async (Product,SubCategory,subCategoryName) =>{
 	try{
-		let subCategoryResult = await SubCategory.findOne({subCategoryName})
+		let subCategoryResult = await SubCategory.findOne({subCategoryName});
 		let result = await Product.find({subCategory:subCategoryResult._id}).populate('subCategory','subCategoryName');
 		return Promise.resolve(result);
 	}catch(err){
@@ -9,9 +9,10 @@ exports.getProducts = async (Product,SubCategory,subCategoryName) =>{
 	}
 }
 //creating new product in database
-exports.createProduct = async (Product,SubCategory,SubCategoryId,data,imagePath) => {
+exports.createProduct = async (Product,SubCategory,subCategoryName,data,imagePath) => {
 	let { productName , productDiscription , productPrice , subCategory , productImage , productsInStock , productBrand , productRating , sizesAvailable , colorsAvailable } = data;
 	try{
+		let subCategoryResult = await SubCategory.findOne({subCategoryName});
 		let newProduct = new Product({
 			productName,
 			productDiscription,
@@ -22,10 +23,10 @@ exports.createProduct = async (Product,SubCategory,SubCategoryId,data,imagePath)
 			productRating,
 			sizesAvailable,
 			colorsAvailable,
-			subCategory : SubCategoryId
+			subCategory : subCategoryResult._id
 		})
 		let result = await newProduct.save();
-		await SubCategory.findOneAndUpdate({_id:SubCategoryId},{$push:{products:result._id}},{new:false});
+		await SubCategory.findOneAndUpdate({_id:subCategoryResult._id},{$push:{products:result._id}},{new:false});
 		return Promise.resolve(result);
 	}
 	catch(err){

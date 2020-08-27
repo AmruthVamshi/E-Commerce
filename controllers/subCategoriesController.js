@@ -4,8 +4,8 @@ const CategoryModel = require('../models/category');
 //require persistance layer
 const persistance = require('../persistance/subCategory');
 
-//subcategory routes
-
+//subcategory controller
+//get all sub categories of a category
 exports.getSubCategories = async (req,res) => {
 	try {
 		let result = await persistance.getSubCategories(SubCategoryModel,CategoryModel,req.params.categoryName);
@@ -26,10 +26,9 @@ exports.getSubCategories = async (req,res) => {
 		})
 	}	
 }
-
+//create a subcategory under a category
 exports.createSubCategory = async (req,res) => {
 	try{
-		console.log(req.body);
 		let result = await persistance.createSubCategory(SubCategoryModel,CategoryModel,req.params.categoryName,req.body);
 		res.status(200).json({
 			text : `created a ${result.subCategoryName} subcategory!.`,
@@ -43,7 +42,7 @@ exports.createSubCategory = async (req,res) => {
 		})
 	}
 }
-
+//update a sub category
 exports.updateSubCategory = async (req,res) => {
 	try{
 		let result = await persistance.updateSubCategory(SubCategoryModel,req.params.subCategoryName,req.body);
@@ -59,7 +58,7 @@ exports.updateSubCategory = async (req,res) => {
 		})
 	}
 }
-
+//delete a subcategory
 exports.deleteSubCategory = async (req,res) => {
 	try{
 		let result = await persistance.deleteSubCategory(SubCategoryModel,CategoryModel,req.params.subCategoryName);

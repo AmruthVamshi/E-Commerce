@@ -1,6 +1,6 @@
 const jwt = require("jsonwebtoken");
 require('dotenv').config();
-// middleware to validate token
+// middleware to validate admin token
 const verifyToken = (req, res, next) => {
   const token = req.header("admin-auth-token");
   if (!token) return res.status(401).json({ error: "Access denied" });

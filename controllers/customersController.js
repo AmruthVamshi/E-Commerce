@@ -1,10 +1,11 @@
 const CustomerModel = require('../models/customer');
+const ProductModel = require('../models/product');
 const persistance = require('../persistance/customer');
 const bcryptjs = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 require('dotenv').config();
-//category routes
-
+//customer logic
+//getting all customers
 exports.getCustomers = async (req,res) => {
 	try {
 		let result = await persistance.getCustomers(CustomerModel);
@@ -20,7 +21,7 @@ exports.getCustomers = async (req,res) => {
 		})
 	}	
 }
-
+//registering a customer
 exports.registerCustomer = async (req,res) => {
 	try{
 		let {userName,password,email} = req.body;
@@ -103,5 +104,37 @@ exports.signin = async (req,res) => {
 			text:'error',
 			err,
 		})
+	}
+}
+
+exports.addToCart = async (req,res) =>{
+	try{
+		let result = await persistance.addToCart(ProductModel,CustomerModel,req.params.productId,req.user._id);
+		res.status(200).json({
+			text:`added to cart!.`,
+			body:result.cart
+		})
+	}catch(err){
+		console.log(err);
+		res.json({
+			text:"error",
+			err,
+		})
+	}
+}
+
+exports.getCart = async (req,res) =>{
+	try{
+		let result = await persistance.getCart(CustomerModel,req.user._id);
+		res.status(200).json({
+			text:`${result.length?'users cart!':'cart is empty!'}`,
+			body:result
+		})
+	}catch(err){
+		console.log(err);
+		res.json({
+			text:"error",
+			err,
+		})	
 	}
 }

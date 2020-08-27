@@ -35,9 +35,10 @@ const customerSchema = new mongoose.Schema({
         	message : 'Please fill a valid email address'
         }
 	},
-	cart : [{
+	cart : [],
+	orders:[{
 		type : mongoose.Schema.Types.ObjectId,
-		ref : 'Cart'
+		ref:"Order"
 	}]
 })
 
